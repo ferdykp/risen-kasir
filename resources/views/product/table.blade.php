@@ -45,7 +45,7 @@
 @empty
     <tr>
         <td colspan="50">
-            <div class="alert alert-danger text-center">
+            <div class="alert alert-danger text-center text-dark">
                 Data Barang belum tersedia.
             </div>
         </td>

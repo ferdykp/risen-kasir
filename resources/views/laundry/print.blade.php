@@ -41,9 +41,13 @@
 
         <!-- Isi Nota -->
         <div class="p-4 font-mono text-xs text-gray-800">
+            <div class="flex justify-center mb-2">
+                <img src="{{ asset('assets/img/logo-risen.png') }}" style="width: 30%">
+            </div>
             <div class="text-center mb-3">
                 <h2 class="text-base font-bold">Risen+</h2>
                 <h3>Cuci Sepatu Kediri</h3>
+                <p>Jl. HML Winarto</p>
                 <p>
                     <i class="fab fa-instagram"></i>: risenplus
                 </p>
@@ -53,6 +57,7 @@
             {{-- <div class="flex justify-center mb-2">
                 <img src="data:image/png;base64,{{ $qr }}" alt="QR Code" class="w-24 h-24">
             </div> --}}
+
 
             <div class="mb-3">
                 <div class="flex justify-between"><span>Order ID:</span> <span>{{ $laundry->order_id }}</span></div>
@@ -102,9 +107,9 @@
 
             <div class="mb-2">
                 <div class="flex justify-between"><span>Catatan:</span> <span>{{ $laundry->note ?? '-' }}</span></div>
-                <div class="flex justify-between"><span>Status:</span>
+                {{-- <div class="flex justify-between"><span>Status:</span>
                     <span>{{ ucfirst($laundry->working_status) }}</span>
-                </div>
+                </div> --}}
                 {{-- <div class="flex justify-between"><span>Selesai:</span>
                     <span>{{ $laundry->order_finish ? \Carbon\Carbon::parse($laundry->order_finish)->format('d-m-Y H:i') : '-' }}</span>
                 </div> --}}

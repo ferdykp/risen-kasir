@@ -6,7 +6,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 :root,
-[data-bs-theme="light"] {
+/* [data-bs-theme="light"] {
     --bs-blue: #63b3ed;
     --bs-indigo: #596cff;
     --bs-purple: #6f42c1;
@@ -189,7 +189,7 @@
     --bs-form-valid-border-color: rgb(134.04, 231, 218.52);
     --bs-form-invalid-color: rgb(245.4, 107.16, 107.16);
     --bs-form-invalid-border-color: rgb(245.4, 107.16, 107.16);
-}
+} */
 
 *,
 *::before,
@@ -11580,7 +11580,7 @@ fieldset:disabled .btn {
 }
 
 .bg-primary {
-    background-color: #bc131b !important;
+    background-color: #000000 !important;
 }
 
 .bg-secondary {
@@ -24327,14 +24327,14 @@ hr.horizontal.gray-light {
 .navbar-vertical .navbar-brand > img,
 .navbar-vertical .navbar-brand-img {
     max-width: 100%;
-    max-height: 2rem;
+    max-height: 7rem;
 }
 
 .navbar-vertical .navbar-nav .nav-link {
     padding-left: 1rem;
     padding-right: 1rem;
     font-weight: 500;
-    color: #67748e;
+    /* color: #67748e; */
 }
 
 .navbar-vertical .navbar-nav .nav-link > i {

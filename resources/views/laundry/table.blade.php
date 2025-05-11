@@ -24,7 +24,10 @@
             {{ $item->payment_status }}
         </td>
         <td style="white-space: nowrap;" class="text-center">
-            {{ $item->working_status }}
+            {{-- {{ $item->working_status }} --}}
+            <span class="status-badge {{ strtolower(str_replace(' ', '-', $item->working_status)) }}">
+                {{ $item->working_status }}
+            </span>
         </td>
 
         {{-- @if (Auth::user()->role == 'admin') --}}
@@ -45,9 +48,27 @@
 @empty
     <tr>
         <td colspan="50">
-            <div class="alert alert-danger text-center">
+            <div class="alert alert-danger text-center text-dark">
                 Data Barang belum tersedia.
             </div>
         </td>
     </tr>
 @endforelse
+
+<style>
+    .status-badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 10px;
+        font-weight: bold;
+        color: white;
+    }
+
+    .on-progress {
+        background-color: orange;
+    }
+
+    .finish {
+        background-color: green;
+    }
+</style>

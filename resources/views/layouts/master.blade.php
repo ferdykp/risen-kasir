@@ -8,7 +8,7 @@
 
 <body class="g-sidenav-show bg-gray-100">
     <div class="min-height-400 position-absolute w-100"
-        style="background-image: url('/assets/img/bg-kasirku.png'); background-size: cover; background-position: center; background-repeat: no-repeat; opacity: 0.8;">
+        style="background-image: url('/assets/img/bg-risen.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; opacity: 0.8;">
     </div>
 
     @include('layouts.aside')

@@ -6,99 +6,311 @@
                 <div class="card">
                     <div class="card-header mt-2">
                         <div class="full-width w-md-a ">
-                            <h4 class="">Edit Inventory Sparepart</h4>
+                            <h4 class="">Edit Order</h4>
                             <hr class="bg-danger border-2 border-top border-danger" />
                         </div>
                     </div>
 
                     <div class="card-body">
-                        <form action="{{ route('sparepart.update', $sparepart->id) }}" method="POST"
+                        <form action="{{ route('laundry.update', $laundry->id) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
-                            <div class="form-group">
-                                <label for="nama_sparepart" class="form-control-label">Nama Sparepart:</label>
-                                <input type="text" class="form-control" id="nama_sparepart" name="nama_sparepart"
-                                    value="{{ old('nama_sparepart', $sparepart->nama_sparepart) }}" required>
-                                @error('nama_sparepart')
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label text-md-right">Order ID</label>
+                                <div class="col-md-6">
+                                    <input type="text" name="order_id" class="form-control"
+                                        value="{{ old('order_id', $laundry->order_id) }}" required readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label text-md-right">Customer Name</label>
+                                <div class="col-md-6">
+
+                                    <input type="text" class="form-control" id="customer_name" name="customer_name"
+                                        value="{{ old('customer_name', $laundry->customer_name) }}" required>
+                                </div>
+                                @error('customer_name')
                                     <span style="color: red;">{{ $message }}</span>
                                 @enderror
                             </div>
 
-                            <div class="form-group">
-                                <label for="kategori" class="form-control-label">Kategori:</label>
-                                <input type="text" class="form-control" id="kategori" name="kategori"
-                                    value="{{ old('kategori', $sparepart->kategori) }}" required>
-                                @error('kategori')
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label text-md-right">Phone Number</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="phone_number" name="phone_number"
+                                        value="{{ old('phone_number', $laundry->phone_number) }}" required>
+                                </div>
+                                @error('phone_number')
                                     <span style="color: red;">{{ $message }}</span>
                                 @enderror
                             </div>
 
-                            <div class="form-group">
-                                <label for="stok" class="form-control-label">Stock:</label>
-                                <input type="number" class="form-control" id="stock" name="stok"
-                                    value="{{ old('stok', $sparepart->stok) }}" required>
-                                @error('stok')
+
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label text-md-right">Shoe Merchandise</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="shoe_merch" name="shoe_merch"
+                                        value="{{ old('shoe_merch', $laundry->shoe_merch) }}" required>
+                                </div>
+                                @error('shoe_merch')
                                     <span style="color: red;">{{ $message }}</span>
                                 @enderror
                             </div>
 
-                            <div class="form-group">
-                                <label for="update_stok" class="form-control-label">Update Stock:</label>
-                                <input type="date" class="form-control" id="update_stok" name="update_stok"
-                                    value="{{ old('update_stok', $sparepart->update_stok) }}" required>
-                                @error('update_stok')
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label text-md-right">Shoe Color</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="shoe_color" name="shoe_color"
+                                        value="{{ old('shoe_color', $laundry->shoe_color) }}" required>
+                                </div>
+                                @error('shoe_color')
                                     <span style="color: red;">{{ $message }}</span>
                                 @enderror
                             </div>
 
-                            <div class="form-group">
-                                <label for="lokasi_penyimpanan" class="form-control-label">Lokasi Penyimpanan:</label>
-                                <select id="lokasi_penyimpanan" class="form-control mb-3" name="lokasi_penyimpanan"
-                                    required>
-                                    <option value="" disabled hidden>--- Select Lokasi Penyimpanan ---</option>
-                                    @foreach ($location as $item)
-                                        <option value="{{ $item->location_name }}"
-                                            {{ old('lokasi_penyimpanan') == $item->location_name ? 'selected' : '' }}>
-                                            {{ $item->location_name }}
+                            @php
+                                $services = [
+                                    'Cuci Biasa',
+                                    'Deep Clean',
+                                    'Unyellowing',
+                                    'Repaint',
+                                    'Repair',
+                                    'Fast Service (Express)',
+                                ];
+                                $payment_methods = ['Cash', 'Transfer', 'Qris'];
+                                $payment_statuses = ['Belum Bayar', 'Sudah Bayar'];
+                                $working_statuses = ['On Progress', 'Finish'];
+                            @endphp
+
+
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label text-md-right">Service</label>
+                                <div class="col-md-6">
+                                    <select class="form-control @error('service') is-invalid @enderror service-dropdown"
+                                        name="service" required autocomplete="service" autofocus id="service">
+                                        <option value="" disabled hidden> --- Select service ---
                                         </option>
-                                    @endforeach
-                                </select>
-                                @error('lokasi_penyimpanan')
-                                    <span style="color: red;">{{ $message }}</span>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <label for="status" class="form-control-label">Status</label>
-                                <select class="form-control @error('status') is-invalid @enderror status-dropdown"
-                                    name="status" required autocomplete="status" autofocus id="status">
-                                    <option value="" disabled hidden> --- Select Status ---
-                                    </option>
-                                    <option value="Tidak Tersedia" data-color="red">Tidak Tersedia</option>
-                                    <option value="Tersedia" data-color="green">Tersedia</option>
-                                </select>
-                                @error('status')
+                                        @foreach ($services as $service)
+                                            <option value="{{ $service }}"
+                                                @if (old('service') == $service) selected @endif>{{ $service }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('service')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
 
-                            <div class="form-group">
-                                <label for="catatan" class="form-control-label">Catatan:</label>
-                                <input type="text" class="form-control" id="catatan" name="catatan"
-                                    value="{{ old('catatan', $sparepart->catatan) }}" required>
-                                @error('catatan')
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label text-md-right">Address</label>
+                                <div class="col-md-6">
+                                    <textarea name="address" class="form-control" rows="4">{{ old('address', $laundry->address) }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label text-md-right">Price</label>
+                                <div class="col-md-6">
+                                    {{-- <input type="number" name="price" class="form-control" step="1000" --}}
+                                    <input type="text" id="price" name="price" class="form-control"
+                                        value="{{ old('price', $laundry->price) }}" required>
+                                </div>
+                                @error('price')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label text-md-right">Payment Method</label>
+                                <div class="col-md-6">
+                                    <select name="payment_method" class="form-control" required>
+                                        <option value="" disabled
+                                            {{ old('payment_method', $laundry->payment_method ?? '') == '' ? 'selected' : '' }}>
+                                            --- Choose Payment Method ---
+                                        </option>
+                                        @foreach ($payment_methods as $method)
+                                            <option value="{{ $method }}"
+                                                {{ old('payment_method', $laundry->payment_method ?? '') == $method ? 'selected' : '' }}>
+                                                {{ $method }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label text-md-right">Payment Status</label>
+                                <div class="col-md-6">
+                                    <select name="payment_status" class="form-control" required>
+                                        <option value="" disabled
+                                            {{ old('payment_status', $laundry->payment_status ?? '') == '' ? 'selected' : '' }}>
+                                            --- Choose Payment status ---
+                                        </option>
+                                        @foreach ($payment_statuses as $status)
+                                            <option value="{{ $status }}"
+                                                {{ old('payment_status', $laundry->payment_status ?? '') == $status ? 'selected' : '' }}>
+                                                {{ $status }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label text-md-right">Working Status</label>
+                                <div class="col-md-6">
+                                    <select name="working_status" class="form-control" required>
+                                        <option value="" disabled
+                                            {{ old('working_status', $laundry->working_status ?? '') == '' ? 'selected' : '' }}>
+                                            --- Choose working status ---
+                                        </option>
+                                        @foreach ($working_statuses as $status)
+                                            <option value="{{ $status }}"
+                                                {{ old('working_status', $laundry->working_status ?? '') == $status ? 'selected' : '' }}>
+                                                {{ $status }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            @foreach (['order_start' => 'Order Start', 'estimated' => 'Estimated Finish'] as $field => $label)
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-form-label text-md-right">{{ $label }}</label>
+                                    <div class="col-md-6">
+                                        <input type="date" name="{{ $field }}" class="form-control"
+                                            value="{{ old($field, optional($laundry)->$field ? \Carbon\Carbon::parse($laundry->$field)->format('Y-m-d') : '') }}">
+                                    </div>
+                                </div>
+                            @endforeach
+
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label text-md-right">Note</label>
+                                <div class="col-md-6">
+                                    <textarea name="note" class="form-control" rows="4">{{ old('note', $laundry->note) }}</textarea>
+                                </div>
+                                @error('note')
                                     <span style="color: red;">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <button type="submit" class="mt-3 btn btn-primary">Update Inventory Sparepart</button>
+
+
+                            <button type="submit" class="mt-3 btn btn-primary">Update Order</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        const priceField = document.getElementById('price');
+
+        // Cegah penghapusan awalan Rp
+        priceField.addEventListener('keydown', function(e) {
+            const cursorPos = priceField.selectionStart;
+
+            // Cegah backspace/delete jika di posisi "Rp "
+            if ((e.key === 'Backspace' || e.key === 'Delete') && cursorPos <= 3) {
+                e.preventDefault();
+            }
+        });
+
+        // Format saat user mengetik
+        priceField.addEventListener('input', function() {
+            let value = priceField.value.replace(/[^0-9]/g, '');
+
+            if (value === '') {
+                priceField.value = 'Rp ';
+                return;
+            }
+
+            const formatted = new Intl.NumberFormat('id-ID').format(parseInt(value));
+            priceField.value = 'Rp ' + formatted;
+        });
+
+        // Format saat halaman dimuat
+        window.addEventListener('DOMContentLoaded', function() {
+            let raw = priceField.value.replace(/[^0-9]/g, '');
+            if (raw) {
+                const formatted = new Intl.NumberFormat('id-ID').format(parseInt(raw));
+                priceField.value = 'Rp ' + formatted;
+            } else {
+                priceField.value = 'Rp ';
+            }
+        });
+    </script>
+
+    <script>
+        function cleanPrice() {
+            const priceField = document.getElementById('price');
+            // Ambil hanya angka
+            priceField.value = priceField.value.replace(/[^0-9]/g, '');
+            return true; // tetap lanjutkan submit
+        }
+    </script>
+
+
+
+
+    <script>
+        const phoneField = document.getElementById('phone_number');
+        const phoneWarning = document.getElementById('phone_warning');
+
+        phoneField.addEventListener('input', function(event) {
+            let raw = phoneField.value;
+
+            // Ambil hanya angka
+            raw = raw.replace(/[^0-9]/g, '');
+
+            // Hilangkan nol di depan jika ada
+            raw = raw.replace(/^0+/, '');
+
+            // Pastikan awalan 62
+            if (!raw.startsWith('62')) {
+                raw = '62' + raw;
+            }
+
+            // Ambil bagian nomor setelah '62'
+            let numberPart = raw.substring(2);
+
+            // Format jadi: +62 819-9919-5871
+            let formatted = '+62';
+            if (numberPart.length > 0) {
+                formatted += ' ';
+                if (numberPart.length <= 3) {
+                    formatted += numberPart;
+                } else if (numberPart.length <= 7) {
+                    formatted += numberPart.substring(0, 3) + '-' + numberPart.substring(3);
+                } else if (numberPart.length <= 11) {
+                    formatted += numberPart.substring(0, 3) + '-' + numberPart.substring(3, 7) + '-' + numberPart
+                        .substring(7);
+                } else {
+                    formatted += numberPart.substring(0, 3) + '-' + numberPart.substring(3, 7) + '-' + numberPart
+                        .substring(7, 11);
+                }
+            }
+
+            phoneField.value = formatted;
+
+            // Validasi: hanya jika digit angka setelah +62 antara 9-12 digit (total 11-14 angka)
+            const validLength = numberPart.length >= 9 && numberPart.length <= 17;
+            phoneWarning.style.display = validLength ? 'none' : 'block';
+        });
+
+        // Tambah +62 saat halaman load jika kosong
+        window.addEventListener('DOMContentLoaded', function() {
+            if (!phoneField.value.startsWith('+62')) {
+                phoneField.value = '+62 ';
+            }
+        });
+    </script>
 @endsection

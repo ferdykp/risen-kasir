@@ -108,7 +108,9 @@ class LaundryController extends Controller
 
 
     public function edit(string $id)
-    { /* opsional */
+    {
+        $laundry = Laundry::findOrFail($id);
+        return view('laundry.edit', compact('laundry'));
     }
 
     public function update(Request $request, string $id)
@@ -116,6 +118,7 @@ class LaundryController extends Controller
         $laundry = Laundry::findOrFail($id);
 
         $validated = $request->validate([
+            'order_id' => 'required|unique:data_laundry,order_id',
             'customer_name' => 'required|string|max:255',
             'phone_number' => [
                 'required',
