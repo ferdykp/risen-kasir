@@ -35,7 +35,7 @@
                 </a>
             </li>
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link {{ request()->is('product') ? 'bg-primary text-white rounded-lg' : '' }}"
                     href="{{ route('product') }}">
                     <div
@@ -44,7 +44,7 @@
                     </div>
                     <span class="nav-link-text ms-1 fw-bold">Products</span>
                 </a>
-            </li>
+            </li> --}}
 
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('laundry') ? 'bg-primary text-white rounded-lg' : '' }}"
@@ -53,11 +53,11 @@
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fa-solid fa-file-circle-exclamation text-dark text-sm"></i>
                     </div>
-                    <span class="nav-link-text ms-1 fw-bold">Laundry</span>
+                    <span class="nav-link-text ms-1 fw-bold">Order</span>
                 </a>
             </li>
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link {{ request()->is('categories') ? 'bg-primary text-white rounded-lg' : '' }}"
                     href="{{ route('categories') }}">
                     <div
@@ -66,7 +66,7 @@
                     </div>
                     <span class="nav-link-text ms-1 fw-bold">Categories</span>
                 </a>
-            </li>
+            </li> --}}
 
         </ul>
     </div>

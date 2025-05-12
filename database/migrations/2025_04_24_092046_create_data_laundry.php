@@ -15,18 +15,18 @@ return new class extends Migration {
             $table->string('order_id')->unique();
             $table->string('customer_name');
             $table->string('phone_number');
-            $table->string('shoe_merch');
-            $table->string('shoe_color');
+            $table->json('shoes')->nullable(); // Kolom JSON untuk menyimpan pasangan shoe_merch & shoe_color
             $table->enum('service', ['Cuci Biasa', 'Deep Clean', 'Unyellowing', 'Repaint', 'Repair', 'Fast Service (Express)']);
             $table->integer('price');
-            $table->string('note');
-            $table->enum('payment_method', ['Cash', 'Transfer', 'Qris']);
+            $table->string('note')->nullable(); // note sebaiknya nullable
+            $table->enum('payment_method', ['Cash', 'Bayar Akhir', 'Qris']);
             $table->enum('payment_status', ['Belum Bayar', 'Sudah Bayar']);
             $table->enum('working_status', ['On Progress', 'Finish']);
             $table->date('order_start');
             $table->date('estimated');
             $table->date('order_finish')->nullable();
             $table->string('address');
+            $table->string('picture')->nullable(); // untuk menyimpan gambar jika ada
             $table->timestamps();
         });
     }

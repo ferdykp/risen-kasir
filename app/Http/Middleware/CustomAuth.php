@@ -23,4 +23,11 @@ class CustomAuth
 
         return $next($request); // Teruskan request jika user sudah login
     }
+    protected function redirectTo($request)
+    {
+        if (!$request->expectsJson()) {
+            return route('login');
+        }
+    }
+
 }

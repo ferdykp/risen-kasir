@@ -29,9 +29,9 @@
                         <div class="row">
                             <div class="col-8">
                                 <div class="numbers">
-                                    <h4 class="text-sm mb-4 text-uppercase font-weight-bold">Total Order Today</h4>
+                                    <h4 class="text-sm mb-4 text-uppercase font-weight-bold">Total Order</h4>
                                     <h5 class="font-weight-bolder">
-                                        {{-- {{ $sparepartCount }} --}}
+                                        {{ $laundryCount }}
                                     </h5>
                                 </div>
                             </div>

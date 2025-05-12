@@ -20,13 +20,34 @@
     <div class="space-y-2">
         <h3 class="text-gray-700 font-semibold">Detail Pesanan</h3>
         <div class="flex justify-between">
-            <span class="text-gray-600">Merk Sepatu:</span>
-            <span class="text-gray-900">{{ $laundry->shoe_merch }}</span>
+            <span class="text-gray-600">Sepatu:</span>
+            <span class="text-gray-900">
+                @if (!empty($shoes))
+                    <ul>
+                        @foreach ($shoes as $shoe)
+                            <li>{{ $shoe['merch'] }} - {{ $shoe['color'] }}</li>
+                        @endforeach
+                    </ul>
+                @else
+                    <p>Tidak ada data sepatu.</p>
+                @endif
+            </span>
         </div>
-        <div class="flex justify-between">
+        {{-- <div class="flex justify-between">
             <span class="text-gray-600">Warna Sepatu:</span>
             <span class="text-gray-900">{{ $laundry->shoe_color }}</span>
-        </div>
+        </div> --}}
+        {{-- <h5>Shoes:</h5>
+        @if (!empty($shoes))
+            <ul>
+                @foreach ($shoes as $shoe)
+                    <li>{{ $shoe['merch'] }} - {{ $shoe['color'] }}</li>
+                @endforeach
+            </ul>
+        @else
+            <p>Tidak ada data sepatu.</p>
+        @endif --}}
+
         <div class="flex justify-between">
             <span class="text-gray-600">Layanan:</span>
             <span class="text-gray-900">{{ $laundry->service }}</span>
@@ -125,7 +146,7 @@
         class="inline-block bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition">
         Kirim ke WhatsApp
     </a>
-    <a href="{{ route('laundry.print', $laundry->id) }}" target="_blank"
+    <a href="{{ route('laundry.printpdf', $laundry->id) }}" target="_blank"
         class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition">
         Print / Simpan PDF
     </a>

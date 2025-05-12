@@ -15,8 +15,7 @@ class Laundry extends Model
         'order_id',
         'customer_name',
         'phone_number',
-        'shoe_merch',
-        'shoe_color',
+        'shoes', // gunakan kolom JSON array
         'service',
         'price',
         'note',
@@ -27,5 +26,12 @@ class Laundry extends Model
         'estimated',
         'order_finish',
         'address'
+    ];
+
+    protected $casts = [
+        'shoes' => 'array', // konversi otomatis ke array saat diakses
+        'order_start' => 'datetime',
+        'estimated' => 'datetime',
+        'order_finish' => 'datetime',
     ];
 }

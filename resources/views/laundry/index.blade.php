@@ -175,20 +175,33 @@
                     url: "/laundry/" + reportId,
                     type: "GET",
                     success: function(response) {
-                        $("#report_detail").html(response);
+                        if (response) {
+                            $("#report_detail").html(response);
+                        } else {
+                            $("#report_detail").html(`
+                <div class="text-center py-6">
+                    <svg class="mx-auto h-12 w-12 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <p class="mt-2 text-red-500 font-medium">Data laporan tidak ditemukan!</p>
+                </div>
+            `);
+                        }
                     },
-                    error: function() {
+                    error: function(xhr, status, error) {
+                        console.error("Error fetching report data:", error);
                         $("#report_detail").html(`
-<div class="text-center py-6">
-<svg class="mx-auto h-12 w-12 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-</svg>
-<p class="mt-2 text-red-500 font-medium">Gagal mengambil data laporan!</p>
-<p class="mt-1 text-gray-500">Silakan coba lagi nanti.</p>
-</div>
-`);
+            <div class="text-center py-6">
+                <svg class="mx-auto h-12 w-12 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <p class="mt-2 text-red-500 font-medium">Gagal mengambil data laporan!</p>
+                <p class="mt-1 text-gray-500">Silakan coba lagi nanti.</p>
+            </div>
+        `);
                     }
                 });
+
             });
 
             // Close modal functions

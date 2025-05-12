@@ -6,29 +6,18 @@ use App\Models\Laundry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Crypt;
 use Vinkla\Hashids\Facades\Hashids;
-
-
-
 
 class LaundryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $laundry = Laundry::paginate(10);
         return view('laundry.index', compact('laundry'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        // Generate unique order ID
         do {
             $order_id = 'ORD-' . now()->format('Ymd') . '-' . Str::upper(Str::random(5));
         } while (Laundry::where('order_id', $order_id)->exists());
@@ -36,9 +25,6 @@ class LaundryController extends Controller
         return view('laundry.create', compact('order_id'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -51,8 +37,10 @@ class LaundryController extends Controller
                 'min:10',
                 'max:17',
             ],
-            'shoe_merch' => 'nullable|string|max:255',
-            'shoe_color' => 'nullable|string|max:255',
+            // 'shoe_merch' => 'nullable|array',
+            // 'shoe_merch.*' => 'nullable|string|max:255',
+            // 'shoe_color' => 'nullable|array',
+            // 'shoe_color.*' => 'nullable|string|max:255',
             'service' => 'required',
             'price' => 'required|numeric',
             'note' => 'nullable|string',
@@ -65,6 +53,17 @@ class LaundryController extends Controller
             'address' => 'required'
         ]);
 
+        $shoePairs = [];
+        $shoe_merch = $request->input('shoe_merch', []);
+        $shoe_color = $request->input('shoe_color', []);
+        foreach ($shoe_merch as $index => $merch) {
+            $shoePairs[] = [
+                'merch' => $merch,
+                'color' => $shoe_color[$index] ?? ''
+            ];
+        }
+        $validated['shoes'] = json_encode($shoePairs);
+
         if ($request->hasFile('picture')) {
             $validated['picture'] = $request->file('picture')->store('laundry_images', 'public');
         }
@@ -74,37 +73,64 @@ class LaundryController extends Controller
         return redirect()->route('laundry')->with('success', 'Order successfully created!');
     }
 
+    // public function show($id)
+    // {
+    //     $laundry = Laundry::findOrFail($id);
+    //     $shoes = json_decode($laundry->shoes, true); // Dekode JSON menjadi array
+
+    //     if (json_last_error() != JSON_ERROR_NONE) {
+    //         // Jika ada error dalam mendekode JSON
+    //         dd("Error decoding JSON: " . json_last_error_msg());
+    //     }
+    //     dd($shoes);
+
+
+    //     return view('laundry.detail', compact('laundry', 'shoes'));
+    // }
+
     public function show($id)
     {
         $laundry = Laundry::findOrFail($id);
-        return view('laundry.detail', compact('laundry'));
+
+        // Hapus kutip ganda ekstra pada string JSON sebelum di-decode
+        $shoes_raw = $laundry->shoes;
+
+        // Jika masih ada kutipan ganda yang tidak valid, bersihkan dulu
+        $shoes_clean = trim($shoes_raw, '"'); // hilangkan kutip luar
+        $shoes_clean = stripslashes($shoes_clean); // hilangkan escape character
+
+        // Decode JSON menjadi array
+        $shoes = json_decode($shoes_clean, true);
+
+        return view('laundry.detail', compact('laundry', 'shoes'));
     }
 
-    // public function print($id)
-    // {
-    //     $laundry = Laundry::findOrFail($id);
-    //     return view('laundry.print', compact('laundry'));
-    // }
-    // public function print($encrypted)
-    // {
-    //     try {
-    //         $id = Crypt::decrypt($encrypted);
-    //         $laundry = Laundry::findOrFail($id);
-    //         return view('laundry.print', compact('laundry'));
-    //     } catch (\Exception $e) {
-    //         abort(404); // jika dekripsi gagal
-    //     }
-    // }
+
+
+
+
+    public function printpdf($id)
+    {
+        $laundry = Laundry::findOrFail($id);
+        $shoes = json_decode($laundry->shoes, true) ?? [];
+
+        return view('laundry.printpdf', compact('laundry', 'shoes'));
+    }
+
     public function print($hash)
     {
         $id = Hashids::decode($hash)[0] ?? null;
-
         if (!$id)
             abort(404);
 
+
         $laundry = Laundry::findOrFail($id);
-        return view('laundry.print', compact('laundry'));
+        // Parse JSON shoes jika tersedia
+        $shoes = json_decode($laundry->shoes, true) ?? [];
+
+        return view('laundry.print', compact('laundry', 'shoes'));
     }
+
 
 
     public function edit(string $id)
@@ -118,7 +144,7 @@ class LaundryController extends Controller
         $laundry = Laundry::findOrFail($id);
 
         $validated = $request->validate([
-            'order_id' => 'required|unique:data_laundry,order_id',
+            'order_id' => 'required|unique:data_laundry,order_id,' . $laundry->id,
             'customer_name' => 'required|string|max:255',
             'phone_number' => [
                 'required',
@@ -127,8 +153,10 @@ class LaundryController extends Controller
                 'min:10',
                 'max:17',
             ],
-            'shoe_merch' => 'nullable|string|max:255',
-            'shoe_color' => 'nullable|string|max:255',
+            // 'shoe_merch' => 'nullable|array',
+            // 'shoe_merch.*' => 'nullable|string|max:255',
+            // 'shoe_color' => 'nullable|array',
+            // 'shoe_color.*' => 'nullable|string|max:255',
             'service' => 'required',
             'price' => 'required|numeric',
             'note' => 'nullable|string',
@@ -141,13 +169,21 @@ class LaundryController extends Controller
             'address' => 'required'
         ]);
 
-        if ($request->hasFile('picture')) {
-            // Hapus gambar lama jika ada
-            if ($laundry->picture && \Storage::disk('public')->exists($laundry->picture)) {
-                \Storage::disk('public')->delete($laundry->picture);
-            }
+        $shoePairs = [];
+        $shoe_merch = $request->input('shoe_merch', []);
+        $shoe_color = $request->input('shoe_color', []);
+        foreach ($shoe_merch as $index => $merch) {
+            $shoePairs[] = [
+                'merch' => $merch,
+                'color' => $shoe_color[$index] ?? ''
+            ];
+        }
+        $validated['shoes'] = json_encode($shoePairs);
 
-            // Simpan gambar baru
+        if ($request->hasFile('picture')) {
+            if ($laundry->picture && Storage::disk('public')->exists($laundry->picture)) {
+                Storage::disk('public')->delete($laundry->picture);
+            }
             $validated['picture'] = $request->file('picture')->store('laundry_images', 'public');
         }
 
@@ -156,8 +192,15 @@ class LaundryController extends Controller
         return redirect()->route('laundry')->with('success', 'Order successfully updated!');
     }
 
-
     public function destroy(string $id)
-    { /* opsional */
+    {
+        $laundry = Laundry::findOrFail($id);
+
+        if ($laundry->picture && Storage::disk('public')->exists($laundry->picture)) {
+            Storage::disk('public')->delete($laundry->picture);
+        }
+
+        $laundry->delete();
+        return redirect()->route('laundry')->with('success', 'Orderan berhasil dihapus.');
     }
 }

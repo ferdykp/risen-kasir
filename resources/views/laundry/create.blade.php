@@ -25,7 +25,7 @@
                                     'Repair',
                                     'Fast Service (Express)',
                                 ];
-                                $payment_methods = ['Cash', 'Transfer', 'Qris'];
+                                $payment_methods = ['Cash', 'Qris', 'Bayar Akhir'];
                                 $payment_statuses = ['Belum Bayar', 'Sudah Bayar'];
                                 $working_statuses = ['On Progress', 'Finish'];
                             @endphp
@@ -62,22 +62,39 @@
                             </div>
 
                             {{-- Shoe Merch --}}
-                            <div class="form-group row">
+                            {{-- <div class="form-group row">
                                 <label class="col-md-4 col-form-label text-md-right">Shoe Merchandise</label>
                                 <div class="col-md-6">
                                     <input type="text" name="shoe_merch" class="form-control"
                                         value="{{ old('shoe_merch') }}">
                                 </div>
-                            </div>
+                            </div> --}}
 
                             {{-- Shoe Color --}}
-                            <div class="form-group row">
+                            {{-- <div class="form-group row">
                                 <label class="col-md-4 col-form-label text-md-right">Shoe Color</label>
                                 <div class="col-md-6">
                                     <input type="text" name="shoe_color" class="form-control"
                                         value="{{ old('shoe_color') }}">
                                 </div>
+                            </div> --}}
+                            {{-- Shoe Items --}}
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label text-md-right">Shoes</label>
+                                <div class="col-md-6" id="shoe-items">
+                                    <div class="shoe-item mb-2">
+                                        <input type="text" name="shoe_merch[]" class="form-control mb-1"
+                                            placeholder="Shoe Merchandise" value="{{ old('shoe_merch.0') }}">
+                                        <input type="text" name="shoe_color[]" class="form-control"
+                                            placeholder="Shoe Color" value="{{ old('shoe_color.0') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 offset-md-4 mt-2">
+                                    <button type="button" class="btn btn-sm btn-secondary" onclick="addShoeItem()">+ Add
+                                        Shoe</button>
+                                </div>
                             </div>
+
 
                             {{-- Service --}}
                             <div class="form-group row">
@@ -224,6 +241,24 @@
             }
         });
     </script> --}}
+
+    <script>
+        function addShoeItem() {
+            const container = document.getElementById('shoe-items');
+            const itemCount = container.querySelectorAll('.shoe-item').length;
+
+            const newItem = document.createElement('div');
+            newItem.classList.add('shoe-item', 'mb-2');
+
+            newItem.innerHTML = `
+                <input type="text" name="shoe_merch[]" class="form-control mb-1" placeholder="Shoe Merchandise">
+                <input type="text" name="shoe_color[]" class="form-control" placeholder="Shoe Color">
+            `;
+
+            container.appendChild(newItem);
+        }
+    </script>
+
 
     <script>
         const priceField = document.getElementById('price');

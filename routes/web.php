@@ -13,9 +13,15 @@ use App\Http\Controllers\LaundryController;
 //     return view('/login');
 // });
 
-Route::get('/', [AuthController::class, 'login'])->name('login');
+
+// Route::get('/', [AuthController::class, 'login'])->name('login');
+// Route::post('/login', [AuthController::class, 'loginAuth'])->name('auth.login');
+// Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+Route::get('/', [AuthController::class, 'login'])->name('root');
+Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'loginAuth'])->name('auth.login');
 Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
 
 
 
@@ -23,7 +29,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 // Route::post('/login/auth', [AuthController::class, 'loginAuth'])->name('auth.login');
 // Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
-// Route::get('/laundry/{id}/print', [LaundryController::class, 'print'])->name('laundry.print');
+Route::get('/laundry/{id}/printpdf', [LaundryController::class, 'printpdf'])->name('laundry.printpdf');
 // Route::get('/laundry/{encrypted}/print', [LaundryController::class, 'print'])->name('laundry.print');
 Route::get('/laundry/{hash}/print', [LaundryController::class, 'print'])->name('laundry.print');
 
@@ -42,8 +48,6 @@ Route::middleware(['auth.custom'])->group(function () {
 
     Route::resource('/laundry', LaundryController::class);
     Route::get('/laundry', [LaundryController::class, 'index'])->name('laundry');
-
-
 
 
     Route::get('/kasir', [TransactionController::class, 'index']);
