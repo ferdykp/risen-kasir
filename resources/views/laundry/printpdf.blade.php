@@ -65,6 +65,7 @@
             <i class="fab fa-instagram"></i> risenplus
         </div>
 
+
         <hr>
 
         <div class="flex-between"><span>Order ID:</span> <span>{{ $laundry->order_id }}</span></div>
@@ -97,18 +98,34 @@
 
         <hr>
 
-        <div class="flex-between"><span>Metode:</span> <span>{{ ucfirst($laundry->payment_method) }}</span></div>
-        <div class="flex-between"><span>Status:</span>
+        <div class="flex-between"><span>Pembayaran:</span> <span>{{ ucfirst($laundry->payment_method) }}</span></div>
+        {{-- <div class="flex-between"><span>Status:</span>
             <span style="color:{{ $laundry->payment_status == 'paid' ? 'green' : 'red' }}">
                 {{ $laundry->payment_status == 'paid' ? 'Lunas' : 'Belum' }}
             </span>
-        </div>
+        </div> --}}
 
         <hr>
 
         <div class="flex-between"><span>Catatan:</span> <span>{{ $laundry->note ?? '-' }}</span></div>
 
         <hr>
+
+        <div class="center" style="margin: 10px 0">Pantau orderan via scan barcode.</div>
+        <div class="center" style="margin: 10px 0">
+
+            @php
+                use SimpleSoftwareIO\QrCode\Facades\QrCode;
+                use Vinkla\Hashids\Facades\Hashids;
+
+                $hash = Hashids::encode($laundry->id);
+
+            @endphp
+
+
+            {!! QrCode::size(100)->generate(route('laundry.print', $hash)) !!}
+
+        </div>
 
         <div class="center">Terima kasih telah menggunakan layanan kami</div>
     </div>

@@ -143,6 +143,11 @@ class LaundryController extends Controller
     {
         $laundry = Laundry::findOrFail($id);
 
+        // Bersihkan format harga sebelum validasi
+        $request->merge([
+            'price' => preg_replace('/[^0-9]/', '', $request->price),
+        ]);
+
         $validated = $request->validate([
             'order_id' => 'required|unique:data_laundry,order_id,' . $laundry->id,
             'customer_name' => 'required|string|max:255',
@@ -153,10 +158,6 @@ class LaundryController extends Controller
                 'min:10',
                 'max:17',
             ],
-            // 'shoe_merch' => 'nullable|array',
-            // 'shoe_merch.*' => 'nullable|string|max:255',
-            // 'shoe_color' => 'nullable|array',
-            // 'shoe_color.*' => 'nullable|string|max:255',
             'service' => 'required',
             'price' => 'required|numeric',
             'note' => 'nullable|string',
@@ -169,6 +170,7 @@ class LaundryController extends Controller
             'address' => 'required'
         ]);
 
+        // Gabungkan shoe_merch dan shoe_color ke dalam satu kolom JSON
         $shoePairs = [];
         $shoe_merch = $request->input('shoe_merch', []);
         $shoe_color = $request->input('shoe_color', []);
@@ -178,8 +180,9 @@ class LaundryController extends Controller
                 'color' => $shoe_color[$index] ?? ''
             ];
         }
-        $validated['shoes'] = json_encode($shoePairs);
+        $validated['shoes'] = json_encode($request->input('shoes', []));
 
+        // Handle gambar (jika ada)
         if ($request->hasFile('picture')) {
             if ($laundry->picture && Storage::disk('public')->exists($laundry->picture)) {
                 Storage::disk('public')->delete($laundry->picture);

@@ -2,20 +2,21 @@
 @section('content')
     <div class="container-fluid py-4">
         <div class="row mt-9">
-            <div class="col-xl-4 col-sm-6 mb-xl-4 mb-4 ">
+            <div class="col-xl-4 col-sm-6 mb-xl-4 mb-4">
                 <div class="card">
-                    <div class="card-body p-3 ">
+                    <div class="card-body p-3">
                         <div class="row">
                             <div class="col-8">
                                 <div class="numbers">
-                                    <h4 class="text-sm mb-4 text-uppercase font-weight-bold">Total Product</h4>
-                                    <h5 class="font-weight-bolder">
-                                        {{-- {{ $reportCount }} --}}
+                                    <h4 class="text-sm mb-4 text-uppercase font-weight-bold">Cashout</h4>
+                                    <h5 class="font-weight-bolder text-danger">
+                                        {{-- Menampilkan total price --}}
+                                        Rp {{ number_format($totalCashout, 2, ',', '.') }} {{-- Format angka dengan 2 desimal --}}
                                     </h5>
                                 </div>
                             </div>
                             <div class="col-4 text-end">
-                                <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+                                <div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
                                     <i class="ni ni-tag text-lg opacity-10" aria-hidden="true"></i>
                                 </div>
                             </div>
@@ -51,8 +52,53 @@
                             <div class="col-8">
                                 <div class="numbers">
                                     <h4 class="text-sm mb-4 text-uppercase font-weight-bold">Income</h4>
-                                    <h5 class="font-weight-bolder">
-                                        {{-- {{ $machineCount }} --}}
+                                    <h5 class="font-weight-bolder text-success">
+                                        {{-- Menampilkan total price --}}
+                                        Rp {{ number_format($totalPrice, 2, ',', '.') }} {{-- Format angka dengan 2 desimal --}}
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="col-4 text-end">
+                                <div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
+                                    <i class="ni ni-tag text-lg opacity-10" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-sm-6 mb-xl-4 mb-4">
+                <div class="card">
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="numbers">
+                                    <h4 class="text-sm mb-4 text-uppercase font-weight-bold">Modal</h4>
+                                    <h5 class="font-weight-bolder text-success">
+                                        {{-- Menampilkan total price --}}
+                                        Rp {{ number_format($totalInvest, 2, ',', '.') }} {{-- Format angka dengan 2 desimal --}}
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="col-4 text-end">
+                                <div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
+                                    <i class="ni ni-tag text-lg opacity-10" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-sm-6 mb-xl-4 mb-4">
+                <div class="card">
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="numbers">
+                                    <h4 class="text-sm mb-4 text-uppercase font-weight-bold">Sisa Modal</h4>
+                                    <h5 class="font-weight-bolder text-danger">
+                                        {{-- Menampilkan total price --}}
+                                        Rp {{ number_format($remainingInvest, 2, ',', '.') }} {{-- Format angka dengan 2 desimal --}}
                                     </h5>
                                 </div>
                             </div>
@@ -66,12 +112,13 @@
                 </div>
             </div>
 
-            <div class="col-12">
+
+            {{-- <div class="col-12">
                 <div class="card">
                     <div class="card-header pb-2">
                         <h3 class="ml-5 mr-12 d-flex mb-2">Notes</h3>
                     </div>
-                    {{-- <div class="card-body pt-2">
+                    <div class="card-body pt-2">
                         <div class="row">
                             <!-- Left Column: Belum Selesai -->
                             <div class="col-md-6">
@@ -115,9 +162,9 @@
                                 </ul>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
                 </div>
-            </div>
+            </div> --}}
 
         </div>
     </div>

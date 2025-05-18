@@ -1,6 +1,6 @@
 <div class="bg-white p-6 rounded-lg shadow-md text-sm font-sans space-y-4">
     <div class="text-center border-b pb-4">
-        <h2 class="text-xl font-bold text-gray-800">Nota Laundry</h2>
+        <h2 class="text-xl font-bold text-gray-800">Detail Order</h2>
         <p class="text-gray-600">{{ \Carbon\Carbon::parse($laundry->order_start)->translatedFormat('d F Y') }}</p>
         <p class="text-xs text-gray-500">Order ID: {{ $laundry->order_id }}</p>
     </div>

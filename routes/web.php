@@ -7,7 +7,10 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InvestmentController;
 use App\Http\Controllers\LaundryController;
+use App\Http\Controllers\PurchaseController;
+use App\Models\Purchase;
 
 // Route::get('/', function () {
 //     return view('/login');
@@ -48,6 +51,12 @@ Route::middleware(['auth.custom'])->group(function () {
 
     Route::resource('/laundry', LaundryController::class);
     Route::get('/laundry', [LaundryController::class, 'index'])->name('laundry');
+
+    Route::resource('/purchase', PurchaseController::class);
+    Route::get('/purchase', [PurchaseController::class, 'index'])->name('purchase');
+
+    Route::resource('/investment', InvestmentController::class);
+    Route::get('/investment', [InvestmentController::class, 'index'])->name('investment');
 
 
     Route::get('/kasir', [TransactionController::class, 'index']);

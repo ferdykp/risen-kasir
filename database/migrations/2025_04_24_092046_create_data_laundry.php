@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->enum('service', ['Cuci Biasa', 'Deep Clean', 'Unyellowing', 'Repaint', 'Repair', 'Fast Service (Express)']);
             $table->integer('price');
             $table->string('note')->nullable(); // note sebaiknya nullable
-            $table->enum('payment_method', ['Cash', 'Bayar Akhir', 'Qris']);
+            $table->enum('payment_method', ['Cash', 'Bayar Akhir', 'Transfer', 'Qris']);
             $table->enum('payment_status', ['Belum Bayar', 'Sudah Bayar']);
             $table->enum('working_status', ['On Progress', 'Finish']);
             $table->date('order_start');

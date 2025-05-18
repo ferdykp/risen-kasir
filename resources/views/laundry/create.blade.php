@@ -81,19 +81,24 @@
                             {{-- Shoe Items --}}
                             <div class="form-group row">
                                 <label class="col-md-4 col-form-label text-md-right">Shoes</label>
-                                <div class="col-md-6" id="shoe-items">
-                                    <div class="shoe-item mb-2">
-                                        <input type="text" name="shoe_merch[]" class="form-control mb-1"
-                                            placeholder="Shoe Merchandise" value="{{ old('shoe_merch.0') }}">
-                                        <input type="text" name="shoe_color[]" class="form-control"
-                                            placeholder="Shoe Color" value="{{ old('shoe_color.0') }}">
+                                <div class="col-md-6">
+                                    <div id="shoes-container">
+                                        {{-- Tampilkan 1 baris input kosong saat create --}}
+                                        <div class="shoe-entry mb-2 d-flex gap-2">
+                                            <input type="text" name="shoes[0][merch]" class="form-control"
+                                                placeholder="Merch" value="{{ old('shoes.0.merch') }}" required>
+                                            <input type="text" name="shoes[0][color]" class="form-control"
+                                                placeholder="Color" value="{{ old('shoes.0.color') }}" required>
+                                            <button type="button" class="btn btn-danger btn-sm remove-shoe"
+                                                style="margin: auto">X</button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6 offset-md-4 mt-2">
-                                    <button type="button" class="btn btn-sm btn-secondary" onclick="addShoeItem()">+ Add
+                                    <button type="button" class="btn btn-success btn-sm mt-2" id="add-shoe">+
+                                        Add
                                         Shoe</button>
                                 </div>
                             </div>
+
 
 
                             {{-- Service --}}
@@ -243,21 +248,31 @@
     </script> --}}
 
     <script>
-        function addShoeItem() {
-            const container = document.getElementById('shoe-items');
-            const itemCount = container.querySelectorAll('.shoe-item').length;
+        let shoeIndex = 1;
 
-            const newItem = document.createElement('div');
-            newItem.classList.add('shoe-item', 'mb-2');
+        document.getElementById('add-shoe').addEventListener('click', function() {
+            const container = document.getElementById('shoes-container');
 
-            newItem.innerHTML = `
-                <input type="text" name="shoe_merch[]" class="form-control mb-1" placeholder="Shoe Merchandise">
-                <input type="text" name="shoe_color[]" class="form-control" placeholder="Shoe Color">
+            const div = document.createElement('div');
+            div.classList.add('shoe-entry', 'mb-2', 'd-flex', 'gap-2');
+            div.innerHTML = `
+                <input type="text" name="shoes[${shoeIndex}][merch]" class="form-control" placeholder="Merch" required>
+                <input type="text" name="shoes[${shoeIndex}][color]" class="form-control" placeholder="Color" required>
+                <button type="button" class="btn btn-danger btn-sm remove-shoe">X</button>
             `;
 
-            container.appendChild(newItem);
-        }
+            container.appendChild(div);
+            shoeIndex++;
+        });
+
+        // Remove shoe entry
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-shoe')) {
+                e.target.closest('.shoe-entry').remove();
+            }
+        });
     </script>
+
 
 
     <script>

@@ -57,6 +57,32 @@
                 </a>
             </li>
 
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-9">Attachment</h6>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('purchase') ? 'bg-primary text-white rounded-lg' : '' }}"
+                    href="{{ route('purchase') }}">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fa-solid fa-file-circle-exclamation text-dark text-sm"></i>
+                    </div>
+                    <span class="nav-link-text ms-1 fw-bold">Purchase List</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('investment') ? 'bg-primary text-white rounded-lg' : '' }}"
+                    href="{{ route('investment') }}">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fa-solid fa-file-circle-exclamation text-dark text-sm"></i>
+                    </div>
+                    <span class="nav-link-text ms-1 fw-bold">Invest List</span>
+                </a>
+            </li>
+
             {{-- <li class="nav-item">
                 <a class="nav-link {{ request()->is('categories') ? 'bg-primary text-white rounded-lg' : '' }}"
                     href="{{ route('categories') }}">

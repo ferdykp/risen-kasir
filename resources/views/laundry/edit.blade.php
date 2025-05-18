@@ -48,8 +48,34 @@
                                 @enderror
                             </div>
 
-
                             <div class="form-group row">
+                                <label class="col-md-4 col-form-label text-md-right">Shoes</label>
+                                <div class="col-md-6">
+                                    <div id="shoes-container">
+                                        @php
+                                            $shoes = old('shoes', json_decode($laundry->shoes, true) ?? []);
+                                        @endphp
+
+                                        @foreach ($shoes as $index => $shoe)
+                                            <div class="shoe-entry mb-2 d-flex gap-2">
+                                                <input type="text" name="shoes[{{ $index }}][merch]"
+                                                    class="form-control" placeholder="Merch"
+                                                    value="{{ $shoe['merch'] ?? '' }}" required>
+                                                <input type="text" name="shoes[{{ $index }}][color]"
+                                                    class="form-control" placeholder="Color"
+                                                    value="{{ $shoe['color'] ?? '' }}" required>
+                                                <button type="button" class="btn btn-danger btn-sm remove-shoe">X</button>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <button type="button" class="btn btn-success btn-sm mt-2" id="add-shoe">+ Add
+                                        Shoe</button>
+                                </div>
+                            </div>
+
+
+
+                            {{-- <div class="form-group row">
                                 <label class="col-md-4 col-form-label text-md-right">Shoe Merchandise</label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" id="shoe_merch" name="shoe_merch"
@@ -69,7 +95,7 @@
                                 @error('shoe_color')
                                     <span style="color: red;">{{ $message }}</span>
                                 @enderror
-                            </div>
+                            </div> --}}
 
                             @php
                                 $services = [
@@ -80,7 +106,7 @@
                                     'Repair',
                                     'Fast Service (Express)',
                                 ];
-                                $payment_methods = ['Cash', 'Transfer', 'Qris'];
+                                $payment_methods = ['Cash', 'Bayar Akhir', 'Transfer', 'Qris'];
                                 $payment_statuses = ['Belum Bayar', 'Sudah Bayar'];
                                 $working_statuses = ['On Progress', 'Finish'];
                             @endphp
@@ -210,6 +236,29 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('add-shoe').addEventListener('click', function() {
+            const container = document.getElementById('shoes-container');
+            const index = container.querySelectorAll('.shoe-entry').length;
+            const entry = document.createElement('div');
+            entry.classList.add('shoe-entry', 'mb-2', 'd-flex', 'gap-2');
+
+            entry.innerHTML = `
+                <input type="text" name="shoes[${index}][merch]" class="form-control" placeholder="Merch" required>
+                <input type="text" name="shoes[${index}][color]" class="form-control" placeholder="Color" required>
+                <button type="button" class="btn btn-danger btn-sm remove-shoe">X</button>
+            `;
+            container.appendChild(entry);
+        });
+
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-shoe')) {
+                e.target.closest('.shoe-entry').remove();
+            }
+        });
+    </script>
+
 
     <script>
         const priceField = document.getElementById('price');
