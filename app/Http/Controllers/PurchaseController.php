@@ -15,7 +15,7 @@ class PurchaseController extends Controller
     public function index()
     {
         $purchase = Purchase::paginate(10);
-        $totalPurchase = Purchase::sum('price'); // Hitung total invest
+        $totalPurchase = Purchase::sum('total_price'); // Hitung total invest
         return view('purchase.index', compact('purchase', 'totalPurchase'));
     }
 
