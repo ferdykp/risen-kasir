@@ -113,20 +113,26 @@
             </div>
 
             <!-- Status Pesanan -->
-            <!--<hr class="my-3 border-dashed">-->
+            {{-- <hr class="my-3 border-dashed">
+            @if ($laundry->working_status_changed_at)
+                <p><strong>Status terakhir diubah pada:</strong>
+                    {{ $laundry->working_status_changed_at->format('d M Y H:i') }}</p>
+            @endif --}}
 
-            <!--<div class="mb-3 space-y-1">-->
-            <!--    <h4 class="font-semibold text-center mb-1">Status Pesanan</h4>-->
-            <!--    <div class="flex justify-between"><span>Dibuat:</span>-->
-            <!--        <span>{{ \Carbon\Carbon::parse($laundry->created_at)->format('d-m-Y H:i') }}</span>-->
-            <!--    </div>-->
-            <!--    <div class="flex justify-between"><span>Diproses:</span>-->
-            <!--        <span>{{ $laundry->processed_at ? \Carbon\Carbon::parse($laundry->updated_at)->format('d-m-Y H:i') : '-' }}</span>-->
-            <!--    </div>-->
-            <!--    <div class="flex justify-between"><span>Selesai:</span>-->
-            <!--        <span>{{ $laundry->finished_at ? \Carbon\Carbon::parse($laundry->finished_at)->format('d-m-Y H:i') : '-' }}</span>-->
-            <!--    </div>-->
-            <!--</div>-->
+            <div class="mb-3 space-y-1">
+                <h4 class="font-semibold text-center mb-1">Status Pesanan</h4>
+                <div class="flex justify-between"><span>Dibuat:</span>
+                    <span>{{ \Carbon\Carbon::parse($laundry->created_at)->format('d-m-Y H:i') }}</span>
+                </div>
+
+
+                <div class="flex justify-between"><span>Diproses:</span>
+                    <span>{{ $laundry->working_status_changed_at ? \Carbon\Carbon::parse($laundry->working_status_changed_at)->format('d-m-Y H:i') : '-' }}</span>
+                </div>
+                <div class="flex justify-between"><span>Selesai:</span>
+                    <span>{{ $laundry->order_finish ? \Carbon\Carbon::parse($laundry->order_finish)->format('d-m-Y H:i') : '-' }}</span>
+                </div>
+            </div>
 
             <hr class="my-3 border-dashed">
 

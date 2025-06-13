@@ -53,6 +53,16 @@ class LaundryController extends Controller
             'address' => 'required'
         ]);
 
+        // $shoePairs = [];
+        // $shoe_merch = $request->input('shoe_merch', []);
+        // $shoe_color = $request->input('shoe_color', []);
+        // foreach ($shoe_merch as $index => $merch) {
+        //     $shoePairs[] = [
+        //         'merch' => $merch,
+        //         'color' => $shoe_color[$index] ?? ''
+        //     ];
+        // }
+        // $validated['shoes'] = json_encode($shoePairs);
         $shoePairs = [];
         $shoe_merch = $request->input('shoe_merch', []);
         $shoe_color = $request->input('shoe_color', []);
@@ -62,7 +72,8 @@ class LaundryController extends Controller
                 'color' => $shoe_color[$index] ?? ''
             ];
         }
-        $validated['shoes'] = json_encode($shoePairs);
+        $validated['shoes'] = json_encode($request->input('shoes', []));
+
 
         if ($request->hasFile('picture')) {
             $validated['picture'] = $request->file('picture')->store('laundry_images', 'public');
@@ -171,7 +182,7 @@ class LaundryController extends Controller
         ]);
 
         // Gabungkan shoe_merch dan shoe_color ke dalam satu kolom JSON
-        $shoePairs = [];
+        // $shoePairs = [];
         $shoe_merch = $request->input('shoe_merch', []);
         $shoe_color = $request->input('shoe_color', []);
         foreach ($shoe_merch as $index => $merch) {
@@ -181,6 +192,36 @@ class LaundryController extends Controller
             ];
         }
         $validated['shoes'] = json_encode($request->input('shoes', []));
+
+        // if ($request->working_status !== $laundry->working_status) {
+        //     $validated['working_status_changed_at'] = now();
+
+        //     // Jika diubah ke 'Finish', set order_finish juga
+        //     if (strtolower($request->working_status) === 'finish') {
+        //         $validated['order_finish'] = now();
+        //     }
+        // }
+
+        // Jika working_status berubah dari selain "On Progress" ke "On Progress"
+        if (
+            $request->working_status !== $laundry->working_status &&
+            strtolower($request->working_status) === 'on progress' &&
+            strtolower($laundry->working_status) !== 'on progress'
+        ) {
+            $validated['working_status_changed_at'] = now();
+        }
+
+        // Jika working_status berubah dari selain "Finish" ke "Finish"
+        if (
+            $request->working_status !== $laundry->working_status &&
+            strtolower($request->working_status) === 'finish' &&
+            strtolower($laundry->working_status) !== 'finish'
+        ) {
+            $validated['order_finish'] = now();
+        }
+
+
+
 
         // Handle gambar (jika ada)
         if ($request->hasFile('picture')) {
@@ -194,6 +235,73 @@ class LaundryController extends Controller
 
         return redirect()->route('laundry')->with('success', 'Order successfully updated!');
     }
+
+    // public function update(Request $request, string $id)
+    // {
+    //     $laundry = Laundry::findOrFail($id);
+
+    //     // Bersihkan format harga sebelum validasi
+    //     $request->merge([
+    //         'price' => preg_replace('/[^0-9]/', '', $request->price),
+    //     ]);
+
+    //     $validated = $request->validate([
+    //         'order_id' => 'required|unique:data_laundry,order_id,' . $laundry->id,
+    //         'customer_name' => 'required|string|max:255',
+    //         'phone_number' => [
+    //             'required',
+    //             'string',
+    //             'regex:/^(\+?\d{1,4}[\s-]?)?(\(?\d{2,4}\)?[\s-]?)?[\d\s-]{6,}$/',
+    //             'min:10',
+    //             'max:17',
+    //         ],
+    //         'service' => 'required',
+    //         'price' => 'required|numeric',
+    //         'note' => 'nullable|string',
+    //         'payment_method' => 'required',
+    //         'payment_status' => 'required',
+    //         'working_status' => 'required',
+    //         'order_start' => 'required|date',
+    //         'estimated' => 'required|date',
+    //         'order_finish' => 'nullable|date',
+    //         'address' => 'required'
+    //     ]);
+
+    //     // Gabungkan shoe_merch dan shoe_color ke dalam satu kolom JSON
+    //     $shoePairs = [];
+    //     $shoe_merch = $request->input('shoe_merch', []);
+    //     $shoe_color = $request->input('shoe_color', []);
+    //     foreach ($shoe_merch as $index => $merch) {
+    //         $shoePairs[] = [
+    //             'merch' => $merch,
+    //             'color' => $shoe_color[$index] ?? ''
+    //         ];
+    //     }
+    //     $validated['shoes'] = json_encode($shoePairs);
+
+    //     // Cek apakah working_status berubah
+    //     if ($request->working_status !== $laundry->working_status) {
+    //         $validated['working_status_changed_at'] = now();
+
+    //         // Jika diubah ke 'Finish', set order_finish juga
+    //         if (strtolower($request->working_status) === 'finish') {
+    //             $validated['order_finish'] = now();
+    //         }
+    //     }
+
+
+    //     // Handle gambar (jika ada)
+    //     if ($request->hasFile('picture')) {
+    //         if ($laundry->picture && Storage::disk('public')->exists($laundry->picture)) {
+    //             Storage::disk('public')->delete($laundry->picture);
+    //         }
+    //         $validated['picture'] = $request->file('picture')->store('laundry_images', 'public');
+    //     }
+
+    //     $laundry->update($validated);
+
+    //     return redirect()->route('laundry')->with('success', 'Order successfully updated!');
+    // }
 
     public function destroy(string $id)
     {

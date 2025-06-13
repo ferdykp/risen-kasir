@@ -64,6 +64,10 @@
         color: white;
     }
 
+    .belum {
+        background-color: grey;
+    }
+
     .on-progress {
         background-color: orange;
     }

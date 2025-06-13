@@ -27,7 +27,7 @@
                                 ];
                                 $payment_methods = ['Cash', 'Qris', 'Bayar Akhir'];
                                 $payment_statuses = ['Belum Bayar', 'Sudah Bayar'];
-                                $working_statuses = ['On Progress', 'Finish'];
+                                $working_statuses = ['Belum', 'On Progress', 'Finish'];
                             @endphp
 
                             {{-- Order ID --}}

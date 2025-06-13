@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->string('note')->nullable(); // note sebaiknya nullable
             $table->enum('payment_method', ['Cash', 'Bayar Akhir', 'Transfer', 'Qris']);
             $table->enum('payment_status', ['Belum Bayar', 'Sudah Bayar']);
-            $table->enum('working_status', ['On Progress', 'Finish']);
+            $table->enum('working_status', ['Belum', 'On Progress', 'Finish']);
             $table->date('order_start');
             $table->date('estimated');
             $table->date('order_finish')->nullable();

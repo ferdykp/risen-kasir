@@ -25,7 +25,9 @@ class Laundry extends Model
         'order_start',
         'estimated',
         'order_finish',
-        'address'
+        'address',
+        'working_status_changed_at',
+        // 'finished_at'
     ];
 
     protected $casts = [

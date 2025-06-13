@@ -108,7 +108,7 @@
                                 ];
                                 $payment_methods = ['Cash', 'Bayar Akhir', 'Transfer', 'Qris'];
                                 $payment_statuses = ['Belum Bayar', 'Sudah Bayar'];
-                                $working_statuses = ['On Progress', 'Finish'];
+                                $working_statuses = ['Belum', 'On Progress', 'Finish'];
                             @endphp
 
 
